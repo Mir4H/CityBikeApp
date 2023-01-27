@@ -3,7 +3,7 @@ const axios = require('axios')
 const csv = require('csvtojson')
 const Biketrip = require('../models/biketrip')
 
-const getcsvdata = async (dataUrl) => {
+const getBiketripData = async (dataUrl) => {
   const file = await axios({
     url: dataUrl,
     method: 'GET',
@@ -103,7 +103,7 @@ module.exports = {
     await Promise.all(
       dataUrls.map(async (dataUrl) => {
         console.log('Getting data, this may take a while, please wait...')
-        await getcsvdata(dataUrl)
+        await getBiketripData(dataUrl)
       })
     )
   },

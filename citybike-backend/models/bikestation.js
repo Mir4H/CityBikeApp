@@ -7,7 +7,8 @@ Bikestation.init(
   {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      unique: true
     },
     nameFinnish: {
       type: DataTypes.TEXT,
