@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { FlatList, View, StyleSheet } from 'react-native'
-import { Card } from 'react-native-paper'
+import { FlatList, View, StyleSheet, ActivityIndicator } from 'react-native'
+import { Card, Searchbar } from 'react-native-paper'
 import React from 'react'
+import { useDebounce } from 'use-debounce'
 
 const styles = StyleSheet.create({
   separator: {
@@ -13,13 +14,12 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />
 
 export class BiketripListContainer extends React.Component {
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item }) => {
     const getMinutes = Math.floor(item.duration / 60)
     const getSeconds = item.duration - getMinutes * 60
-    console.log(index)
 
     return (
-      <Card onPress={() => console.log(item.id)}>
+      <Card key={item.id} onPress={() => console.log(item.id)}>
         <Card.Title
           title={`${item.departureStationName} - ${item.returnStationName}`}
           subtitle={`${(item.coveredDistance / 1000).toFixed(
@@ -37,41 +37,76 @@ export class BiketripListContainer extends React.Component {
       <FlatList
         data={biketripData}
         ItemSeparatorComponent={ItemSeparator}
-        onEndReached={onEndReached}
         onEndReachedThreshold={0.3}
         keyExtractor={(item) => item.id.toString()}
         renderItem={this.renderItem}
+        onMomentumScrollBegin={() => {
+          this.onEndReachedCalledDuringMomentum = false
+        }}
+        onEndReached={() => {
+          if (!this.onEndReachedCalledDuringMomentum) {
+            onEndReached()
+            this.onEndReachedCalledDuringMomentum = true
+          }
+        }}
       />
     )
   }
 }
 
-const BiketripList = () => {
+const BiketripList = ({ searchVisible }) => {
   const [biketripData, setBiketripData] = useState([])
   const [page, setPage] = useState(0)
+  const [searchStation, setSearchStation] = useState('')
+  const [searchValue] = useDebounce(searchStation, 500)
+  const [loading, setLoading] = useState(true)
+  const onChangeSearch = (text) => setSearchStation(text)
 
   const fetchBiketrips = async () => {
+    setLoading(true)
     const response = await fetch(
-      `http://192.168.1.130:3001/api/biketrips?page=${page}`
+      `http://192.168.1.130:3001/api/biketrips?page=${page}&search=${searchValue}`
     )
     const json = await response.json()
+    setBiketripData(json.biketrips)
+    setPage(json.currentPage + 1)
+    setLoading(false)
+  }
 
-    console.log(json.biketrips)
-    setPage(page + 1)
+  const fetchMore = async () => {
+    const response = await fetch(
+      `http://192.168.1.130:3001/api/biketrips?page=${page}&search=${searchValue}`
+    )
+    const json = await response.json()
     setBiketripData([...biketripData, ...json.biketrips])
+    setPage(page + 1)
   }
 
   useEffect(() => {
+    setBiketripData([])
     fetchBiketrips()
-    console.log(page)
-  }, [])
+  }, [searchValue])
 
   return (
     <View>
-      <BiketripListContainer
-        biketripData={biketripData}
-        onEndReached={fetchBiketrips}
-      />
+      {searchVisible ? (
+        <Searchbar
+          style={{ margin: 5 }}
+          placeholder="Search by stations"
+          onChangeText={onChangeSearch}
+          value={searchStation}
+        />
+      ) : null}
+      {loading ? (
+        <View style={{ margin: 15 }}>
+          <ActivityIndicator size="large" />
+        </View>
+      ) : (
+        <BiketripListContainer
+          biketripData={biketripData}
+          onEndReached={fetchMore}
+        />
+      )}
     </View>
   )
 }

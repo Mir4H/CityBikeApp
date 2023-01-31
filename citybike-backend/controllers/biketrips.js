@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { Biketrip } = require('../models')
+const { Op } = require('sequelize')
 
 const pagination = (page, size) => {
   const limit = size ? +size : 15
@@ -20,6 +21,25 @@ router.get('/', async (req, res) => {
   let where = {}
   const { page, size } = req.query
   const { limit, offset } = pagination(page, size)
+
+  if (req.query.search) {
+    const searchUp =
+      req.query.search.charAt(0).toUpperCase() + req.query.search.slice(1)
+    where = {
+      [Op.or]: [
+        {
+          departureStationName: {
+            [Op.substring]: searchUp
+          }
+        },
+        {
+          returnStationName: {
+            [Op.substring]: searchUp
+          }
+        }
+      ]
+    }
+  }
 
   Biketrip.findAndCountAll({ where, limit, offset })
     .then((data) => {
