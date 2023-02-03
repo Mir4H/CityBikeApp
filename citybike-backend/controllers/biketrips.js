@@ -15,7 +15,7 @@ const paginationData = (data, page, limit) => {
   return { totalItems, biketrips, totalPages, currentPage }
 }
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   let where = {}
   let order = [['id']]
   const { page, size } = req.query
@@ -46,11 +46,32 @@ router.get('/', async (req, res) => {
     order = [[sorting], ['createdAt']]
   }
 
+  if (req.query.distance) {
+    const distance = req.query.distance.split(',')
+    console.log(distance)
+    where = {
+      ...where,
+      coveredDistance: {
+        [Op.between]: distance
+      }
+    }
+  }
+
+  if (req.query.duration) {
+    const duration = req.query.duration.split(',')
+    where = {
+      ...where,
+      duration: {
+        [Op.between]: duration
+      }
+    }
+  }
+
   Biketrip.findAndCountAll({ where, order, limit, offset })
     .then((data) => {
       const response = paginationData(data, page, limit)
       res.send(response)
-      console.log(response.biketrips.map(item => item.id))
+      console.log(response.biketrips.map((item) => item.id))
     })
     .catch((err) => {
       res.status(500).send({
@@ -68,5 +89,15 @@ router.delete('/:id', async (req, res) => {
     res.status(204).end()
   }
 })
+
+router.get('/:id', async (req, res) => {
+  try {
+    const biketrip = await Biketrip.findByPk(req.params.id)
+    res.send(biketrip)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 
 module.exports = router

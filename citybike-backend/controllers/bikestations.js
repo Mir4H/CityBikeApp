@@ -16,7 +16,7 @@ const paginationData = (data, page, limit) => {
   return { totalItems, bikestations, totalPages, currentPage }
 }
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   let where = {}
   const { page, size } = req.query
   const { limit, offset } = pagination(page, size)

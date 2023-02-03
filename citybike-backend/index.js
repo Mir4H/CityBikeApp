@@ -4,10 +4,12 @@ const { PORT } = require('./utils/config')
 const { connectToDatabase } = require('./utils/db')
 const biketripsRouter = require('./controllers/biketrips')
 const bikestationsRouter = require('./controllers/bikestations')
+const valueRouter = require('./controllers/biketripValues')
 app.use(express.json())
 
 app.use('/api/biketrips', biketripsRouter)
 app.use('/api/bikestations', bikestationsRouter)
+app.use('/api/values', valueRouter)
 
 app.get('/', async (req, res) => {
   res.send('Starting a project')
