@@ -26,10 +26,25 @@ const getBiketripData = async (dataUrl) => {
 
   let nro = 1000
   let offset = 0
-  while (offset < jsonArray.length) {
-    const chunk = jsonArray
-      .slice(offset, nro)
-      .filter((item) => item.coveredDistance > 10 && item.duration > 10)
+  const filtered = jsonArray
+    .filter((item) => item.coveredDistance > 10 && item.duration > 10)
+    .reduce((acc, item) => {
+      if (
+        !acc.some(
+          (entry) =>
+            entry.departureTime === item.departureTime &&
+            entry.returnTime === item.returnTime &&
+            entry.coveredDistance === item.coveredDistance &&
+            entry.departureStationId === item.departureStationId &&
+            entry.returnStationId === item.returnStationId
+        )
+      ) {
+        return [...acc, item]
+      }
+      return acc
+    }, [])
+  while (offset < filtered.length) {
+    const chunk = filtered.slice(offset, nro)
     try {
       await Biketrip.bulkCreate(chunk, { validate: true })
       console.log(`Added rows from ${offset} to ${nro}`)
@@ -40,12 +55,12 @@ const getBiketripData = async (dataUrl) => {
     }
   }
 }
-
+/*
 const dataUrls = [
   'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv',
   'https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv',
   'https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv'
-]
+]*/
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
@@ -98,14 +113,24 @@ module.exports = {
         validate: {
           min: 10
         }
+      },
+      created_at: {
+        type: DataTypes.DATE
+      },
+      updated_at: {
+        type: DataTypes.DATE
       }
     })
-    await Promise.all(
-      dataUrls.map(async (dataUrl) => {
-        console.log('Getting data, this may take a while, please wait...')
-        await getBiketripData(dataUrl)
-      })
+    console.log(
+      'Getting first set of data, this will take a while, please wait...'
     )
+    await getBiketripData(
+      'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv'
+    )
+    //console.log('Getting second set of data, this may take a while, please wait...')
+    // await getBiketripData('https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv')
+    //console.log('Getting third set of data, this may take a while, please wait...')
+    //await getBiketripData('https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv')
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('biketrips')
