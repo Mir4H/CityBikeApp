@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { FlatList, View, StyleSheet, ActivityIndicator } from 'react-native'
-import { Card, Searchbar } from 'react-native-paper'
+import { Searchbar } from 'react-native-paper'
 import React from 'react'
 import { useDebounce } from 'use-debounce'
 import TopBar from './TopBar'
 import axios from 'axios'
 import Filtering from './Filtering'
 import { useNavigate } from 'react-router-native'
+import DetailsCard from './DetailsCard'
 
 const styles = StyleSheet.create({
   separator: {
@@ -19,22 +20,8 @@ const ItemSeparator = () => <View style={styles.separator} />
 
 export class BiketripListContainer extends React.Component {
   renderItem = ({ item }) => {
-    const getMinutes = Math.floor(item.duration / 60)
-    const getSeconds = item.duration - getMinutes * 60
-    const getHours = Math.floor(getMinutes / 60)
-
-    return (
-      <Card onPress={() => console.log(item.id)}>
-        <Card.Title
-          title={`${item.departureStationName} - ${item.returnStationName}`}
-          subtitle={`${(item.coveredDistance / 1000).toFixed(2)} km in ${
-            getMinutes > 60
-              ? `${getHours} hours, ${getMinutes - getHours * 60}`
-              : getMinutes
-          } minutes and ${getSeconds} seconds`}
-        />
-      </Card>
-    )
+    const { navigate } = this.props
+    return <DetailsCard item={item} navigate={navigate} listing={true}/>
   }
 
   render() {
@@ -104,6 +91,7 @@ const BiketripList = () => {
         setSortBy={setSortBy}
         setSearchStation={setSearchStation}
         setFilters={setFilters}
+        navigate={navigate}
       />
       {searchVisible ? (
         <Searchbar

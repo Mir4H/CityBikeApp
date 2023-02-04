@@ -127,10 +127,18 @@ module.exports = {
     await getBiketripData(
       'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv'
     )
-    //console.log('Getting second set of data, this may take a while, please wait...')
-    // await getBiketripData('https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv')
-    //console.log('Getting third set of data, this may take a while, please wait...')
-    //await getBiketripData('https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv')
+    console.log(
+      'Getting second set of data, this may take a while, please wait...'
+    )
+    await getBiketripData(
+      'https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv'
+    )
+    console.log(
+      'Getting third set of data, this may take a while, please wait...'
+    )
+    await getBiketripData(
+      'https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv'
+    )
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('biketrips')
