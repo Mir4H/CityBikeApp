@@ -14,9 +14,6 @@ app.use('/api/bikestations', bikestationsRouter)
 app.use('/api/values', valueRouter)
 app.use('/api/stationvalues', stationValueRouter)
 
-app.get('/', async (req, res) => {
-  res.send('Starting a project')
-})
 
 const start = async () => {
   await connectToDatabase()
@@ -26,3 +23,6 @@ const start = async () => {
 }
 
 start()
+
+
+module.exports = app

@@ -28,12 +28,14 @@ const getBikestationData = async () => {
       'positionY'
     ]
   }).fromString(file.data)
-
-  try {
-    console.log('Loading station data...')
-    await Bikestation.bulkCreate(jsonArray, { validate: true })
-  } catch (error) {
-    console.log(error)
+  if (process.env.NODE_ENV !== 'test') {
+    try {
+      console.log('Loading station data...')
+      await Bikestation.bulkCreate(jsonArray, { validate: true })
+      console.log('Ready to Roll')
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

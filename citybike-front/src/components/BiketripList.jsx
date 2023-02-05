@@ -8,7 +8,7 @@ import axios from 'axios'
 import Filtering from './Filtering'
 import { useNavigate } from 'react-router-native'
 import DetailsCard from './DetailsCard'
-import { Url } from './Main'
+import { Url } from './BiketripDetails'
 
 const styles = StyleSheet.create({
   separator: {

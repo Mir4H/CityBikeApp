@@ -7,7 +7,7 @@ import TopBar from './TopBar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-native'
 import { Card, Avatar } from 'react-native-paper'
-import { Url } from './Main'
+import { Url } from './BiketripDetails'
 
 
 const styles = StyleSheet.create({

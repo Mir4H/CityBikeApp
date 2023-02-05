@@ -31,7 +31,6 @@ const DetailsCard = ({ item, listing }) => {
   }
   if (listing) {
     const img = randomImage()
-    console.log(img)
     return (
       <>
         <Card

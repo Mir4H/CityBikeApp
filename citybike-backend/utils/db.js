@@ -3,7 +3,7 @@ const { DATABASE_URL } = require('./config')
 const { Umzug, SequelizeStorage } = require('umzug')
 
 const sequelize = new Sequelize(DATABASE_URL)
-//{ logging: false }
+
 const connectToDatabase = async () => {
   try {
     await sequelize.authenticate()

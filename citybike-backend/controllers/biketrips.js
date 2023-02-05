@@ -42,13 +42,11 @@ router.get('/', (req, res) => {
 
   if (req.query.order) {
     const sorting = req.query.order.split(',')
-    console.log(sorting)
     order = [[sorting], ['createdAt']]
   }
 
   if (req.query.distance) {
     const distance = req.query.distance.split(',')
-    console.log(distance)
     where = {
       ...where,
       coveredDistance: {
@@ -71,23 +69,12 @@ router.get('/', (req, res) => {
     .then((data) => {
       const response = paginationData(data, page, limit)
       res.send(response)
-      console.log(response.biketrips.map((item) => item.id))
     })
     .catch((err) => {
       res.status(500).send({
         message: err.message || 'An error occurred while retrieving biketrips.'
       })
     })
-})
-
-router.delete('/:id', async (req, res) => {
-  console.log(req.params.id)
-  const biketrip = await Biketrip.findByPk(req.params.id)
-  console.log(biketrip)
-  if (biketrip) {
-    await biketrip.destroy()
-    res.status(204).end()
-  }
 })
 
 router.get('/:id', async (req, res) => {

@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "citybike-front",
-    "slug": "citybike-front",
+    "name": "Citybike App",
+    "slug": "citybike-app",
+    "description": "Citybike app for viewing stations and journeys made with citybikes in Helsinki and Espoo.",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
     "splash": {
+      "image": "./assets/citybikeapp.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +27,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     }
   }
 }

@@ -107,16 +107,21 @@ module.exports = {
         type: DataTypes.DATE
       }
     })
-
-    await Promise.all(
-      dataUrls.map(async (dataUrl) => {
-        console.log('Getting data, this may take a while, please wait...')
-        await getBiketripData(dataUrl)
-      })
-    )
-    await sequelize.query(
-      'DELETE FROM biketrips WHERE id IN SELECT r1.id FROM biketrips r1 JOIN biketrips r2 ON r1.departure_time = r2.departure_time AND r1.return_time = r2.return_time AND r1.covered_distance = r2.covered_distance AND r1.departure_station_id = r2.departure_station_id AND r1.return_station_id = r2.return_station_id AND r2.id < r1.id;'
-    )
+    if (process.env.NODE_ENV !== 'test') {
+      try {
+        await Promise.all(
+          dataUrls.map(async (dataUrl) => {
+            console.log('Getting data, this may take a while, please wait...')
+            await getBiketripData(dataUrl)
+          })
+        )
+        await sequelize.sequelize.query(
+          'DELETE FROM biketrips WHERE id IN (SELECT r1.id FROM biketrips r1 JOIN biketrips r2 ON r1.departure_time = r2.departure_time AND r1.return_time = r2.return_time AND r1.covered_distance = r2.covered_distance AND r1.departure_station_id = r2.departure_station_id AND r1.return_station_id = r2.return_station_id AND r2.id < r1.id);'
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('biketrips')

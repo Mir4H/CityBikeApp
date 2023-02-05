@@ -5,7 +5,7 @@ import React from 'react'
 import { useParams, useNavigate } from 'react-router-native'
 import axios from 'axios'
 import TopBar from './TopBar'
-import { Url } from './Main'
+import { Url } from './BiketripDetails'
 
 const StationButtons = ({ name, id }) => {
   const navigate = useNavigate()

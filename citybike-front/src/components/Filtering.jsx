@@ -3,7 +3,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native'
 import axios from 'axios'
 import _ from 'lodash'
-import { Url } from './Main'
+import { Url } from './BiketripDetails'
 
 const Filtering = ({ setFilters, setFilterVisible, filterVisible }) => {
   const [durationValues, setDurationValues] = useState([])

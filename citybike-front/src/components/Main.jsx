@@ -16,18 +16,16 @@ const styles = StyleSheet.create({
   }
 })
 
-export const Url = 'http://192.168.1.130:3001'
-
 const Main = () => {
   return (
     <View style={styles.container}>
       <SafeAreaProvider>
         <Provider>
           <Routes>
-            <Route path="/" element={<BiketripList title='Biketrips'/>} exact />
-            <Route path="/:id" element={<BiketripDetails title='Details'/>} />
-            <Route path="/bikestations" element={<StationList title='Stations'/>} exact />
-            <Route path="/stations/:id" element={<StationDetails title='StationDetails'/>} />
+            <Route path="/" element={<BiketripList/>} exact />
+            <Route path="/:id" element={<BiketripDetails/>} />
+            <Route path="/bikestations" element={<StationList/>} exact />
+            <Route path="/stations/:id" element={<StationDetails/>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Provider>

@@ -5,7 +5,7 @@ import TopBar from './TopBar'
 import axios from 'axios'
 import { useParams } from 'react-router-native'
 import DetailsCard from './DetailsCard'
-import { Url } from './Main'
+export const Url = 'http://192.168.1.130:3001'
 
 const BiketripDetails = () => {
   const [biketrip, setBiketrip] = useState()
