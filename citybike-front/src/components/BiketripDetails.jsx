@@ -30,7 +30,7 @@ const BiketripDetails = () => {
 
   return (
     <>
-      <TopBar unique={true} />
+      <TopBar unique={true} title={'Trip Details'}/>
       <DetailsCard listing={false} item={biketrip} />
     </>
   )

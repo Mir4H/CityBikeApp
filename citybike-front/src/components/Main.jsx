@@ -5,6 +5,8 @@ import BiketripList from './BiketripList'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-native-paper'
 import BiketripDetails from './BiketripDetails'
+import StationList from './StationList'
+import StationDetails from './StationDetails'
 
 const styles = StyleSheet.create({
   container: {
@@ -21,8 +23,10 @@ const Main = () => {
       <SafeAreaProvider>
         <Provider>
           <Routes>
-            <Route path="/" element={<BiketripList/>} exact />
-            <Route path="/:id" element={<BiketripDetails />} />
+            <Route path="/" element={<BiketripList title='Biketrips'/>} exact />
+            <Route path="/:id" element={<BiketripDetails title='Details'/>} />
+            <Route path="/bikestations" element={<StationList title='Stations'/>} exact />
+            <Route path="/stations/:id" element={<StationDetails title='StationDetails'/>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Provider>

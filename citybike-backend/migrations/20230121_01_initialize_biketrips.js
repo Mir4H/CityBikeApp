@@ -55,12 +55,12 @@ const getBiketripData = async (dataUrl) => {
     }
   }
 }
-/*
+
 const dataUrls = [
   'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv',
   'https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv',
   'https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv'
-]*/
+]
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
@@ -121,23 +121,12 @@ module.exports = {
         type: DataTypes.DATE
       }
     })
-    console.log(
-      'Getting first set of data, this will take a while, please wait...'
-    )
-    await getBiketripData(
-      'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv'
-    )
-    console.log(
-      'Getting second set of data, this may take a while, please wait...'
-    )
-    await getBiketripData(
-      'https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv'
-    )
-    console.log(
-      'Getting third set of data, this may take a while, please wait...'
-    )
-    await getBiketripData(
-      'https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv'
+
+    await Promise.all(
+      dataUrls.map(async (dataUrl) => {
+        console.log('Getting data, this may take a while, please wait...')
+        await getBiketripData(dataUrl)
+      })
     )
   },
   down: async ({ context: queryInterface }) => {

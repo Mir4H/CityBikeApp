@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { Bikestation } = require('../models')
+const { Op } = require('sequelize')
 
 const pagination = (page, size) => {
   const limit = size ? +size : 15
@@ -21,6 +22,16 @@ router.get('/', (req, res) => {
   const { page, size } = req.query
   const { limit, offset } = pagination(page, size)
 
+  if (req.query.search) {
+    const searchUp =
+      req.query.search.charAt(0).toUpperCase() + req.query.search.slice(1)
+    where = {
+      nameFinnish: {
+        [Op.substring]: searchUp
+      }
+    }
+  }
+
   Bikestation.findAndCountAll({ where, limit, offset })
     .then((data) => {
       const response = paginationData(data, page, limit)
@@ -28,9 +39,19 @@ router.get('/', (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'An error occurred while retrieving bikestations.'
+        message:
+          err.message || 'An error occurred while retrieving bikestations.'
       })
     })
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    const bikestation = await Bikestation.findByPk(req.params.id)
+    res.send(bikestation)
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 module.exports = router

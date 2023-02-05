@@ -5,9 +5,9 @@ import React from 'react'
 import { useDebounce } from 'use-debounce'
 import TopBar from './TopBar'
 import axios from 'axios'
-import Filtering from './Filtering'
 import { useNavigate } from 'react-router-native'
-import DetailsCard from './DetailsCard'
+import { Card, Avatar } from 'react-native-paper'
+
 
 const styles = StyleSheet.create({
   separator: {
@@ -18,18 +18,33 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-export class BiketripListContainer extends React.Component {
+export class StationListContainer extends React.Component {
   renderItem = ({ item }) => {
     const { navigate } = this.props
-    return <DetailsCard item={item} navigate={navigate} listing={true} />
+    return (
+      <Card onPress={() => navigate(`/stations/${item.id}`) }>
+        <Card.Title
+          title={`${item.nameFinnish}`}
+          subtitle={`${item.nameSwedish}`}
+          left={() => (
+            <Avatar.Text
+              size={45}
+              style={{ backgroundColor: '#63a8a7' }}
+              color={'#1b2e2e'}
+              label={item.nameFinnish.slice(0, 2)}
+            />
+          )}
+        />
+      </Card>
+    )
   }
 
   render() {
-    const { biketripData, onEndReached, fetching } = this.props
+    const { stationData, onEndReached, fetching } = this.props
 
     return (
       <FlatList
-        data={biketripData}
+        data={stationData}
         ItemSeparatorComponent={ItemSeparator}
         onEndReachedThreshold={0.2}
         keyExtractor={(item) => item.id}
@@ -41,26 +56,23 @@ export class BiketripListContainer extends React.Component {
   }
 }
 
-const BiketripList = () => {
-  const [biketripData, setBiketripData] = useState([])
+const StationList = () => {
+  const [stationData, setStationData] = useState([])
   const [page, setPage] = useState(0)
   const [searchStation, setSearchStation] = useState('')
   const [searchValue] = useDebounce(searchStation, 500)
   const [loading, setLoading] = useState(true)
   const [searchVisible, setSearchVisible] = useState(false)
-  const [filterVisible, setFilterVisible] = useState(false)
-  const [sortBy, setSortBy] = useState('')
   const [fetching, setFetching] = useState(false)
-  const [filters, setFilters] = useState('')
   const onChangeSearch = (text) => setSearchStation(text)
   const navigate = useNavigate()
 
-  const fetchBiketrips = async () => {
+  const fetchStations = async () => {
     setLoading(true)
     const response = await axios.get(
-      `http://192.168.1.130:3001/api/biketrips?page=${0}&search=${searchValue}&order=${sortBy}&${filters}`
+      `http://192.168.1.130:3001/api/bikestations?page=${0}&search=${searchValue}`
     )
-    setBiketripData(response.data.biketrips)
+    setStationData(response.data.bikestations)
     setPage(page + 1)
     setLoading(false)
   }
@@ -68,30 +80,26 @@ const BiketripList = () => {
   const fetchMore = async () => {
     setFetching(true)
     const response = await axios.get(
-      `http://192.168.1.130:3001/api/biketrips?page=${page}&search=${searchValue}&order=${sortBy}&${filters}`
+      `http://192.168.1.130:3001/api/bikestations?page=${page}&search=${searchValue}`
     )
 
-    setBiketripData([...biketripData, ...response.data.biketrips])
+    setStationData([...stationData, ...response.data.bikestations])
     setPage(page + 1)
     setFetching(false)
   }
 
   useEffect(() => {
-    setBiketripData([])
-    fetchBiketrips()
-  }, [searchValue, sortBy, filters])
+    setStationData([])
+    fetchStations()
+  }, [searchValue])
 
   return (
     <View style={{ flex: 1 }}>
       <TopBar
-        title={'Citybike Trips'}
+        title={'Citybike Stations'}
         searchVisible={searchVisible}
-        filterVisible={filterVisible}
         setSearchVisible={setSearchVisible}
-        setFilterVisible={setFilterVisible}
-        setSortBy={setSortBy}
         setSearchStation={setSearchStation}
-        setFilters={setFilters}
         navigate={navigate}
       />
       {searchVisible ? (
@@ -102,20 +110,13 @@ const BiketripList = () => {
           value={searchStation}
         />
       ) : null}
-      {filterVisible ? (
-        <Filtering
-          setFilters={setFilters}
-          filterVisible={filterVisible}
-          setFilterVisible={setFilterVisible}
-        />
-      ) : null}
       {loading ? (
         <View style={{ margin: 15 }}>
           <ActivityIndicator size="large" />
         </View>
       ) : (
-        <BiketripListContainer
-          biketripData={biketripData}
+        <StationListContainer
+          stationData={stationData}
           onEndReached={fetchMore}
           searchVisible={searchVisible}
           setSearchVisible={setSearchVisible}
@@ -127,4 +128,4 @@ const BiketripList = () => {
   )
 }
 
-export default BiketripList
+export default StationList
