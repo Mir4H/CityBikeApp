@@ -1,7 +1,7 @@
 # City Bike App
 
 An app that lists HSL city bike journeys and stations. Every journey and station also has a details page for more information. 
-Journeys can be sorted and filtered by journey duration and distance covered. Stations and journeys may also be searched by station name. 
+Journeys can be sorted and filtered by journey duration and distance covered. Stations and journeys may also be searched by station name. </br>
 <img src="https://user-images.githubusercontent.com/77398611/216816093-3ad826c9-656d-43e0-9b1b-549e63a54f35.PNG" width="300" />
 <img src="https://user-images.githubusercontent.com/77398611/216816221-ff4c7669-7b71-48fc-aae1-4e9c6080059a.PNG" width="300" /></br>
 <img src="https://user-images.githubusercontent.com/77398611/216816235-ad398800-d61f-4761-98ba-7c86deeda9be.PNG" width="300" />
