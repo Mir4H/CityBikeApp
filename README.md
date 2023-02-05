@@ -2,23 +2,32 @@
 
 An app that lists HSL city bike journeys and stations. Every journey and station also has a details page for more information. 
 Journeys can be sorted and filtered by journey duration and distance covered. Stations and journeys may also be searched by station name. </br>
-<img src="https://user-images.githubusercontent.com/77398611/216816093-3ad826c9-656d-43e0-9b1b-549e63a54f35.PNG" width="300" />
-<img src="https://user-images.githubusercontent.com/77398611/216816221-ff4c7669-7b71-48fc-aae1-4e9c6080059a.PNG" width="300" /></br>
-<img src="https://user-images.githubusercontent.com/77398611/216816235-ad398800-d61f-4761-98ba-7c86deeda9be.PNG" width="300" />
-<img src="https://user-images.githubusercontent.com/77398611/216816262-e7dc2355-4ec9-4be2-8cc0-613eb59abc16.PNG" width="300" />
+
+## Test it!
+You can test the app on Expo Go, please find it here: https://expo.dev/@mir4ha/citybike-app?serviceType=classic&distribution=expo-go</br>
+
+## Screenshots
+<p float="left">
+<img src="https://user-images.githubusercontent.com/77398611/216816093-3ad826c9-656d-43e0-9b1b-549e63a54f35.PNG" width="260" />
+<img src="https://user-images.githubusercontent.com/77398611/216816221-ff4c7669-7b71-48fc-aae1-4e9c6080059a.PNG" width="260" />
+</p>
+<p float="left">
+<img src="https://user-images.githubusercontent.com/77398611/216816235-ad398800-d61f-4761-98ba-7c86deeda9be.PNG" width="260" />
+<img src="https://user-images.githubusercontent.com/77398611/216816262-e7dc2355-4ec9-4be2-8cc0-613eb59abc16.PNG" width="260" />
+</p>
 
 ## Tech Stack
 
 The backend is build with NodeJs and Express, with PostgreSQL as a database with Sequelize ORM. </br>
 The frontend is build using React Native with Expo framework.
+IPhone (iOS) was used for testing the app durning development.
 
-## Run the project
+## Run the project locally
 #### Backend
 * Clone the repository and move to the directory .\CityBikeApp\citybike-backend\
 * Create .env file and add a PostgreSQL database URL in a variable called DATABASE_URL=address
 * Run 'npm install' to install all dependencies. 
-* Using Fly.io, in order to connect to the Fly Postgres database forward the server port to your local system with fly proxy: fly proxy 5432 -a postgres-app-name
-* For a psql shell: fly postgres connect -a postgres-app-name
+* I was using Fly.io, here in order to connect to the Fly Postgres database forward the server port to your local system with fly proxy: fly proxy 5432 -a postgres-app-name. For a psql shell: fly postgres connect -a postgres-app-name
 * Now you're set and can run the backend with command: 'npm start' for production mode or 'npm run dev' to run it with nodemon in development mode.
 * To run the tests you need to add a test database url to the .env file in a variable called TEST_DATABASE_URL=address.
 #### Frontend
