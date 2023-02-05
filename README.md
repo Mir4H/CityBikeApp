@@ -1,6 +1,6 @@
 # City Bike App
 
-An app that lists HSL city bike journeys and stations. Evenry journey and station also has a details page for more information. 
+An app that lists HSL city bike journeys and stations. Every journey and station also has a details page for more information. 
 Journeys can be sorted and filtered by journey duration and distance covered. Stations and journeys may also be searched by station name. 
 <img src="https://user-images.githubusercontent.com/77398611/216816093-3ad826c9-656d-43e0-9b1b-549e63a54f35.PNG" width="300" />
 <img src="https://user-images.githubusercontent.com/77398611/216816221-ff4c7669-7b71-48fc-aae1-4e9c6080059a.PNG" width="300" /></br>
@@ -12,9 +12,25 @@ Journeys can be sorted and filtered by journey duration and distance covered. St
 The backend is build with NodeJs and Express, with PostgreSQL as a database with Sequelize ORM. </br>
 The frontend is build using React Native with Expo framework.
 
+## Run the project
+#### Backend
+* Clone the repository and move to the directory .\CityBikeApp\citybike-backend\
+* Create .env file and add a PostgreSQL database URL in a variable called DATABASE_URL=address
+* Run 'npm install' to install all dependencies. 
+* Using Fly.io, in order to connect to the Fly Postgres database forward the server port to your local system with fly proxy: fly proxy 5432 -a postgres-app-name
+* For a psql shell: fly postgres connect -a postgres-app-name
+* Now you're set and can run the backend with command: 'npm start' for production mode or 'npm run dev' to run it with nodemon in development mode.
+* To run the tests you need to add a test database url to the .env file in a variable called TEST_DATABASE_URL=address.
+#### Frontend
+* Move to the directory .\CityBikeApp\citybike-front and run 'npm install' to install all dependencies. 
+* Run: 'npx expo start' to run the Expo project. 
+* Copy the IP address between the exp:// and :, for example 192.168.1.130 and add port 3001, in format http://<IP_ADDRESS>:3001 . Make sure to add that URL in the BiketripDetails.jsx 'export const Url = 'http://192.168.1.130:3001''.
+* To see the project running, you'll need to have the Expo Go App on your mobile device. Once you have it scan the QR code with Expo Go (Android) or the Camera app (iOS) and open the project in the app.
+
 ## To Do
-At the moment there is no possibility for the user to add data. That's a feature to be added. </br>
-Also a station location map should be added.
+At the moment there is no possibility for the user to add data. That feature needs to be added. </br>
+Also a station location map should be added. </br>
+In the backend there are integration tests for the REST API, but tests for the frontend need to be created.
 
 ## The data
 
