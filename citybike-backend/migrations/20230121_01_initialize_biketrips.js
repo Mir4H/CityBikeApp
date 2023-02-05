@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize')
 const axios = require('axios')
 const csv = require('csvtojson')
 const Biketrip = require('../models/biketrip')
+const sequelize = require('../utils/db')
 
 const getBiketripData = async (dataUrl) => {
   const file = await axios({
@@ -26,25 +27,10 @@ const getBiketripData = async (dataUrl) => {
 
   let nro = 1000
   let offset = 0
-  const filtered = jsonArray
-    .filter((item) => item.coveredDistance > 10 && item.duration > 10)
-    .reduce((acc, item) => {
-      if (
-        !acc.some(
-          (entry) =>
-            entry.departureTime === item.departureTime &&
-            entry.returnTime === item.returnTime &&
-            entry.coveredDistance === item.coveredDistance &&
-            entry.departureStationId === item.departureStationId &&
-            entry.returnStationId === item.returnStationId
-        )
-      ) {
-        return [...acc, item]
-      }
-      return acc
-    }, [])
-  while (offset < filtered.length) {
-    const chunk = filtered.slice(offset, nro)
+  while (offset < jsonArray.length) {
+    const chunk = jsonArray
+      .slice(offset, nro)
+      .filter((item) => item.coveredDistance > 10 && item.duration > 10)
     try {
       await Biketrip.bulkCreate(chunk, { validate: true })
       console.log(`Added rows from ${offset} to ${nro}`)
@@ -127,6 +113,9 @@ module.exports = {
         console.log('Getting data, this may take a while, please wait...')
         await getBiketripData(dataUrl)
       })
+    )
+    await sequelize.query(
+      'DELETE FROM biketrips WHERE id IN SELECT r1.id FROM biketrips r1 JOIN biketrips r2 ON r1.departure_time = r2.departure_time AND r1.return_time = r2.return_time AND r1.covered_distance = r2.covered_distance AND r1.departure_station_id = r2.departure_station_id AND r1.return_station_id = r2.return_station_id AND r2.id < r1.id;'
     )
   },
   down: async ({ context: queryInterface }) => {

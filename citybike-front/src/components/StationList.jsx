@@ -7,6 +7,7 @@ import TopBar from './TopBar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-native'
 import { Card, Avatar } from 'react-native-paper'
+import { Url } from './Main'
 
 
 const styles = StyleSheet.create({
@@ -70,7 +71,7 @@ const StationList = () => {
   const fetchStations = async () => {
     setLoading(true)
     const response = await axios.get(
-      `http://192.168.1.130:3001/api/bikestations?page=${0}&search=${searchValue}`
+      `${Url}/api/bikestations?page=${0}&search=${searchValue}`
     )
     setStationData(response.data.bikestations)
     setPage(page + 1)
@@ -80,7 +81,7 @@ const StationList = () => {
   const fetchMore = async () => {
     setFetching(true)
     const response = await axios.get(
-      `http://192.168.1.130:3001/api/bikestations?page=${page}&search=${searchValue}`
+      `${Url}/api/bikestations?page=${page}&search=${searchValue}`
     )
 
     setStationData([...stationData, ...response.data.bikestations])

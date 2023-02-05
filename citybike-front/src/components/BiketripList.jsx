@@ -8,6 +8,7 @@ import axios from 'axios'
 import Filtering from './Filtering'
 import { useNavigate } from 'react-router-native'
 import DetailsCard from './DetailsCard'
+import { Url } from './Main'
 
 const styles = StyleSheet.create({
   separator: {
@@ -20,8 +21,7 @@ const ItemSeparator = () => <View style={styles.separator} />
 
 export class BiketripListContainer extends React.Component {
   renderItem = ({ item }) => {
-    const { navigate } = this.props
-    return <DetailsCard item={item} navigate={navigate} listing={true} />
+    return <DetailsCard item={item} listing={true} />
   }
 
   render() {
@@ -58,7 +58,7 @@ const BiketripList = () => {
   const fetchBiketrips = async () => {
     setLoading(true)
     const response = await axios.get(
-      `http://192.168.1.130:3001/api/biketrips?page=${0}&search=${searchValue}&order=${sortBy}&${filters}`
+      `${Url}/api/biketrips?page=${0}&search=${searchValue}&order=${sortBy}&${filters}`
     )
     setBiketripData(response.data.biketrips)
     setPage(page + 1)
@@ -68,7 +68,7 @@ const BiketripList = () => {
   const fetchMore = async () => {
     setFetching(true)
     const response = await axios.get(
-      `http://192.168.1.130:3001/api/biketrips?page=${page}&search=${searchValue}&order=${sortBy}&${filters}`
+      `${Url}/api/biketrips?page=${page}&search=${searchValue}&order=${sortBy}&${filters}`
     )
 
     setBiketripData([...biketripData, ...response.data.biketrips])
@@ -120,7 +120,6 @@ const BiketripList = () => {
           searchVisible={searchVisible}
           setSearchVisible={setSearchVisible}
           fetching={fetching}
-          navigate={navigate}
         />
       )}
     </View>

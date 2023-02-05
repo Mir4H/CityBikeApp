@@ -16,8 +16,9 @@ const styles = StyleSheet.create({
   }
 })
 
-const Main = () => {
+export const Url = 'http://192.168.1.130:3001'
 
+const Main = () => {
   return (
     <View style={styles.container}>
       <SafeAreaProvider>

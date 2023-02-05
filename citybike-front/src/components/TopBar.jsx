@@ -42,9 +42,19 @@ const TopBar = ({
           onDismiss={menu}
           anchor={<Appbar.Action icon="menu" onPress={menu} />}
         >
-          <Menu.Item onPress={() => {navigate('/')}} title="Biketrips" />
+          <Menu.Item
+            onPress={() => {
+              navigate('/')
+            }}
+            title="Biketrips"
+          />
           <Divider />
-          <Menu.Item onPress={() => {navigate('/bikestations')}} title="Bike Stations" />
+          <Menu.Item
+            onPress={() => {
+              navigate('/bikestations')
+            }}
+            title="Bike Stations"
+          />
         </Menu>
       </Appbar.Header>
     )
@@ -68,12 +78,14 @@ const TopBar = ({
             <Menu.Item onPress={resetAll} title="Reset all" />
           </>
         ) : (
-          <Menu.Item
-            onPress={() => {
-              navigate('/')
-            }}
-            title="Biketrips"
-          />
+          <>
+            <Menu.Item
+              onPress={() => {
+                navigate('/')
+              }}
+              title="Biketrips"
+            />
+          </>
         )}
       </Menu>
       <Appbar.Content title={title} />

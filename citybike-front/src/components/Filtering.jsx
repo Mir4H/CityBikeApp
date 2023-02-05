@@ -3,6 +3,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native'
 import axios from 'axios'
 import _ from 'lodash'
+import { Url } from './Main'
 
 const Filtering = ({ setFilters, setFilterVisible, filterVisible }) => {
   const [durationValues, setDurationValues] = useState([])
@@ -11,7 +12,7 @@ const Filtering = ({ setFilters, setFilterVisible, filterVisible }) => {
   const distanceValuesChange = (values) => setDistanceValues(values)
 
   const getValues = async () => {
-    const response = await axios.get('http://192.168.1.130:3001/api/values')
+    const response = await axios.get(`${Url}/api/values`)
     const { maxdistance, maxduration } = response.data
     const durationValues = [
       ..._.range(100),

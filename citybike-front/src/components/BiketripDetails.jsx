@@ -5,13 +5,14 @@ import TopBar from './TopBar'
 import axios from 'axios'
 import { useParams } from 'react-router-native'
 import DetailsCard from './DetailsCard'
+import { Url } from './Main'
 
 const BiketripDetails = () => {
   const [biketrip, setBiketrip] = useState()
   const { id } = useParams()
   const getBiketrip = async () => {
     const biketrip = await axios.get(
-      `http://192.168.1.130:3001/api/biketrips/${id}`
+      `${Url}/api/biketrips/${id}`
     )
     setBiketrip(biketrip.data)
   }

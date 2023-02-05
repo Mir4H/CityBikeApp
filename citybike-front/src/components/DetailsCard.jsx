@@ -1,15 +1,17 @@
-import { Card, Text, Avatar } from 'react-native-paper'
+import { Card, Text, Avatar, Button } from 'react-native-paper'
 import React from 'react'
 const date = require('date-and-time')
 import { useState } from 'react'
-import { useLocation } from 'react-router-native'
+import { useLocation, useNavigate } from 'react-router-native'
+import { StyleSheet, View } from 'react-native'
 
-const DetailsCard = ({ item, listing, navigate }) => {
+const DetailsCard = ({ item, listing }) => {
   const getMinutes = Math.floor(item.duration / 60)
   const getSeconds = item.duration - getMinutes * 60
   const getHours = Math.floor(getMinutes / 60)
   const averageSpeed = ((item.coveredDistance / item.duration) * 3.6).toFixed(2)
   const location = useLocation()
+  const navigate = useNavigate()
   const [randomImages] = useState([
     require('../../assets/bike.jpeg'),
     require('../../assets/bike1.jpeg'),
@@ -42,18 +44,38 @@ const DetailsCard = ({ item, listing, navigate }) => {
                 ? `${getHours} hours, ${getMinutes - getHours * 60}`
                 : getMinutes
             } minutes and ${getSeconds} seconds`}
-            left={() => <Avatar.Image size={45} source={img} style={{ backgroundColor: '#63a8a7' }}/>}
+            left={() => (
+              <Avatar.Image
+                size={45}
+                source={img}
+                style={{ backgroundColor: '#63a8a7' }}
+              />
+            )}
           />
         </Card>
       </>
     )
   } else {
     return (
-      <Card onPress={() => console.log(item.id)}>
+      <Card>
         <Card.Cover source={location.state.image} />
-        <Card.Title
-          title={`${item.departureStationName} - ${item.returnStationName}`}
-        />
+        <View style={{ flexDirection: 'row' }}>
+          <Button
+            style={styles.button}
+            onPress={() => navigate(`/stations/${item.departureStationId}`)}
+          >
+            <Text variant="titleMedium">{item.departureStationName}</Text>
+          </Button>
+          <Text variant="titleMedium" style={{ marginVertical: 15 }}>
+            {' - '}
+          </Text>
+          <Button
+            style={styles.button}
+            onPress={() => navigate(`/stations/${item.returnStationId}`)}
+          >
+            <Text variant="titleMedium">{item.returnStationName}</Text>
+          </Button>
+        </View>
         <Card.Content>
           <Text variant="bodyMedium">
             Biketrip started{' '}
@@ -78,5 +100,16 @@ const DetailsCard = ({ item, listing, navigate }) => {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignSelf: 'flex-start',
+    alignItems: 'center',
+    borderColor: '#63615b',
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 10
+  }
+})
 
 export default DetailsCard
