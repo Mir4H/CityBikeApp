@@ -29,7 +29,7 @@ IPhone (iOS) was used for testing the app durning development.
 * Run 'npm install' to install all dependencies. 
 * I was using Fly.io, here in order to connect to the Fly Postgres database forward the server port to your local system with fly proxy: fly proxy 5432 -a postgres-app-name. For a psql shell: fly postgres connect -a postgres-app-name
 * Now you're set and can run the backend with command: 'npm start' for production mode or 'npm run dev' to run it with nodemon in development mode.
-* To run the tests you need to add a test database url to the .env file in a variable called TEST_DATABASE_URL=address.
+* To run the tests you need to add a test database url to the .env file in a variable called TEST_DATABASE_URL=address an Run 'npm test'.
 #### Frontend
 * Move to the directory .\CityBikeApp\citybike-front and run 'npm install' to install all dependencies. 
 * Run: 'npx expo start' to run the Expo project. 
