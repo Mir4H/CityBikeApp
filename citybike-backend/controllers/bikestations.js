@@ -48,6 +48,10 @@ router.get('/:id', async (req, res) => {
     const bikestation = await Bikestation.findByPk(req.params.id)
     res.send(bikestation)
   } catch (error) {
+    res.status(404).send({
+      message:
+        error.message || 'Station details not found.'
+    })
     console.log(error)
   }
 })

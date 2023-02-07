@@ -49,7 +49,7 @@ const StationDetails = () => {
         {!load ? (
           <>
             <TopBar unique={true} title="Station Details" />
-            <Text>Station details not found</Text>
+            <Text variant="titleMedium" style={{ margin: 15 }}>Station details not found in the data</Text>
           </>
         ) : (
           <ActivityIndicator size="large" />

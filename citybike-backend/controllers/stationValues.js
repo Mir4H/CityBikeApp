@@ -73,6 +73,9 @@ router.get('/:id', async (req, res) => {
 
     res.send(values)
   } catch (error) {
+    res.status(500).send({
+      message: error.message || 'An error occurred while retrieving values.'
+    })
     console.log(error)
   }
 })

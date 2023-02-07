@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { Biketrip } = require('../models')
-const { Op } = require('sequelize')
+const { Op, ValidationErrorItem } = require('sequelize')
 
 const pagination = (page, size) => {
   const limit = size ? size : 15
@@ -82,9 +82,12 @@ router.get('/:id', async (req, res) => {
     const biketrip = await Biketrip.findByPk(req.params.id)
     res.send(biketrip)
   } catch (error) {
+    res.status(404).send({
+      message:
+        error.message || 'Biketrip details not found.'
+    })
     console.log(error)
   }
 })
-
 
 module.exports = router
