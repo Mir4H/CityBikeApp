@@ -1,7 +1,6 @@
 # City Bike App
 
-An app that lists HSL city bike journeys and stations. Every journey and station also has a details page for more information. 
-Journeys can be sorted and filtered by journey duration and distance covered. Stations and journeys may also be searched by station name. </br>
+An app that I created to try out what I could do with some open data. This is an app that lists HSL city bike journeys and stations. Every journey and station also has a details page for more information. Journeys can be sorted and filtered by journey duration and distance covered. Stations and journeys may also be searched by station name. </br>
 
 ## Test it!
 You can test the app on Expo Go, please find it here: https://expo.dev/@mir4ha/citybike-app?serviceType=classic&distribution=expo-go</br>
@@ -24,6 +23,7 @@ IPhone (iOS) was used for testing the app durning development.
 
 ## Run the project locally
 #### Backend
+* Install Nodejs and npm => https://nodejs.org/en/download/
 * Clone the repository and move to the directory .\CityBikeApp\citybike-backend\
 * Create .env file and add a PostgreSQL database URL in a variable called DATABASE_URL=address
 * Run 'npm install' to install all dependencies. 
@@ -37,9 +37,9 @@ IPhone (iOS) was used for testing the app durning development.
 * To see the project running, you'll need to have the Expo Go App on your mobile device. Once you have it scan the QR code with Expo Go (Android) or the Camera app (iOS) and open the project in the app.
 
 ## To Do
-At the moment there is no possibility for the user to add data. That feature needs to be added. </br>
-Also a station location map should be added. </br>
-In the backend there are integration tests for the REST API, but tests for the frontend need to be created.
+* At the moment there is no possibility for the user to add data. That feature needs to be added. </br>
+* A station location map should be added. </br>
+* Testing frontend.
 
 ## The data
 
