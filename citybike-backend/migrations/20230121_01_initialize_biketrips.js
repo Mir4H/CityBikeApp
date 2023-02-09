@@ -42,12 +42,6 @@ const getBiketripData = async (dataUrl) => {
   }
 }
 
-const dataUrls = [
-  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv',
-  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv',
-  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv'
-]
-
 module.exports = {
   up: async ({ context: queryInterface }) => {
     await queryInterface.createTable('biketrips', {
@@ -109,12 +103,8 @@ module.exports = {
     })
     if (process.env.NODE_ENV !== 'test') {
       try {
-        await Promise.all(
-          dataUrls.map(async (dataUrl) => {
-            console.log('Getting data, this may take a while, please wait...')
-            await getBiketripData(dataUrl)
-          })
-        )
+        console.log('Getting data, this may take a while, please wait...')
+        await getBiketripData('https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv')
         await sequelize.sequelize.query(
           'DELETE FROM biketrips WHERE id IN (SELECT r1.id FROM biketrips r1 JOIN biketrips r2 ON r1.departure_time = r2.departure_time AND r1.return_time = r2.return_time AND r1.covered_distance = r2.covered_distance AND r1.departure_station_id = r2.departure_station_id AND r1.return_station_id = r2.return_station_id AND r2.id < r1.id);'
         )
