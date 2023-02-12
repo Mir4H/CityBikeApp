@@ -37,8 +37,10 @@ IPhone (iOS) was used for testing the app durning development.
 * To see the project running, you'll need to have the Expo Go App on your mobile device. Once you have it scan the QR code with Expo Go (Android) or the Camera app (iOS) and open the project in the app.
 
 ## To Do
-* At the moment there is no possibility for the user to add data. That feature needs to be added. </br>
-* A station location map should be added. </br>
+* Overall still working on things. </br>
+#### Features to add
+* A feature to add data. </br>
+* A station location map. </br>
 * Testing frontend.
 
 ## The data
